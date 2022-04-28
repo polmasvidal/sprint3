@@ -71,31 +71,65 @@ var cart = [];
 
 var total = 0;
 
+// ** Nivell I **
+
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    for(var i = 0; i < products.length; i++) {
+        if(id === (i+1)){
+            cartList.push(products[i]);
+        }
+    }
+    console.log(cartList);
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList = [];
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    for(var i = 0; i < cartList.length; i++) {
+        total += cartList[i].price;
+    }
+    return total;
 }
 
 // Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    for(var product in cartList) {
+        if(cart.includes(cartList[product])){
+            cartList[product].quantity ++;
+        } else {
+            cartList[product].quantity = 1;
+            cart.push(cartList[product]);
+        }
+    }
+
+    console.log(cart);
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    for(var i = 0; i < cart.length; i++) {
+        if (cart[i].id === 1) {
+            if (cart[i].quantity >= 3) {
+                cart[i].subtotalWithDiscount = cart[i].quantity * 10;
+            }
+        } else if (cart[i].id === 3) {
+            if (cart[i].quantity >= 10) {
+                cart[i].subtotalWithDiscount = cart[i].quantity * cart[i].price * 2/3;
+            }
+        }
+    }
+    console.log(cart);
 }
 
 
@@ -106,12 +140,41 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    var itemToAdd;
+     for(var i = 0; i < products.length; i++) {
+         if(id === (i+1)) {
+             itemToAdd = products[id];
+         } if(cart.includes(itemToAdd)) {
+             cart[products].quantity ++;
+             cart[products].subtotal = cart[products].price * cart[products].quantity; 
+         } else {
+             cart.push(itemToAdd);
+             cart[cart.length-1].quantity = 1;
+             cart[cart.length-1].subtotal = cart[cart.length-1].price;
+         }
+     }
+     console.log(cart);
 }
 
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    var itemToRemove;
+     for(var i = 0; i < products.length; i++) {
+         if(id === (i+1)) {
+             itemToRemove = products[id];
+         } if(cart.includes(itemToRemove) && itemToRemove.quantity > 1) {
+             cart[products].quantity --;
+             cart[products].subtotal = cart[products].price * cart[products].quantity; 
+             cart[products].subtotalWithDiscount = cart[products].subtotal;
+         } else if (cart.includes(itemToRemove) && itemToRemove.quantity === 1) {
+             cart.splice(itemToRemove, itemToRemove+1);
+         } else {
+             alert('This item is not in your cart.')
+         }
+     }
+     console.log(cart);
 }
 
 // Exercise 9
